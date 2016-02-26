@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts Dosis -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Dosis">
+    
+    <!--menu stylesheet-->
+	<link rel="stylesheet" href="css/menu.css" />
+    
+    <!-- Leafet CSS -->
+    <link rel="stylesheet" href="js/libraries/leaflet/leaflet.css" type="text/css" />
+    
+    <!-- Jquery UI autocomplete -->
+    <link rel="stylesheet" href="js/libraries/jquery-ui-autocomplete/jquery-ui.min.css" />
+    
+   <style>
+   	#mapContainer{
+   		width:100%;
+   		height:700px;
+   	}
+   	
+   	#open_text{
+		position: absolute;
+		z-index:99;
+		margin-left:50px;
+	}
+
+	#buttons{
+		position: absolute;
+		z-index:99;
+		margin-top:150px;
+		margin-left:10px;
+	}
+	
+
+	.button{
+		margin-bottom: 10px;
+		margin-top: 10px;
+		margin-left: 10px;
+		padding-top: 12px;
+		padding-bottom: 12px;
+		padding-left: 10px;
+		padding-right: 10px;
+		text-decoration: none;
+		font-weight: bold;
+		font-size: 12px;
+		line-height: 1.5;
+		text-transform: uppercase;
+		height: 40px;
+		width:130px;
+		background-color: none;
+		color: black;
+		border: solid 1px black;
+		-webkit-transition: all 500ms ease;
+		-moz-transition: all 500ms ease;
+		-ms-transition: all 500ms ease;
+		transition: all 500ms ease;
+	}
+
+	.button:hover{
+		background-color: black;
+		color:white;
+		text-decoration:none;
+		cursor: pointer;
+	}
+
+	.button:active{
+		color:#2c7fb8;
+		text-decoration:none;
+	}
+	
+	.active-button{
+		color:white;
+		background-color:#2c7fb8;
+		border: solid 1px #2c7fb8;
+	}
+	
+	.active-button:hover{
+		background-color: black;
+		color:white;
+		border: solid 1px black;
+		text-decoration:none;
+		cursor: pointer;
+	
+	}
+	
+	#top{
+		width:50px;
+		height:50px;
+		margin-left:20px;
+		margin-top:10px;
+		transition: all 500ms ease;
+	}
+	
+	#top:hover{
+		cursor:pointer;
+		opacity:0.5;
+	}
+	
+	table{
+		width:80%;
+		margin-left:10%;
+		margin-right:10%;
+		margin-top:20px;
+		margin-bottom:50px;
+	}
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	
+	thead{
+		background-color:#2c7fb8;
+		color:white;
+	}
+	
+	th, td {
+		padding:10px;
+		text-align: center;
+	}
+	
+	
+	@media all and (max-width: 750px){
+		th, td {
+			padding:6px;
+			text-align: center;
+		}
+	}
+	
+	@media all and (max-width: 650px){
+		th, td {
+			padding:4px;
+			text-align: center;
+		}
+		
+		table{
+			width:90%;
+			margin-left:5%;
+			margin-right:5%;
+			margin-top:20px;
+			margin-bottom:50px;
+		}
+	}
+	
+	@media all and (max-width: 600px){
+		th, td {
+			padding:2px;
+			text-align: center;
+		}
+		table{
+			width:100%;
+			margin-left:0px;
+			margin-top:20px;
+			margin-bottom:50px;
+			font-size:10px;
+		}
+	}
+   </style>
+
+</head>
+<body>
+
+<div id='cssmenu'>
+<ul>
+   <li class='active'><a href='#'>Home</a></li>
+   <li><a href='#'>About</a>
+   		<ul>
+   			<li><a href='#'>History</a></li>
+   			<li><a href='#'>Staff</a></li>
+   			<li><a href='#'>Timeline</a></li>
+   		</ul>
+   </li>	
+   <li><a href='#'>Project</a>
+   		<ul>
+   			<li><a href='#'>Field Network</a></li>
+   			<li><a href='#'>Sample Processing</a></li>
+   			<li><a href='#'>Ecological Genomics</a></li>
+   			<li><a href='#'>Environmental Informatics</a></li>
+   		</ul>
+   </li>	
+   <li><a href='#'>Data</a></li>
+   <li><a href='#'>Interactive Map</a></li>
+   <li><a href='#'>Resources</a>
+   <ul>
+   			<li><a href='#'>Tutorials</a></li>
+   			<li><a href='#'>Videos</a></li>
+   			<li><a href='#'>Activity Reports</a></li>
+   		</ul>
+   </li>	
+   <li><a href='#'>Blog</a></li>
+</ul>
+</div> 
+<div class="row ">
+    <div class="col-md-12">    
+    <div id="main">
+    	<div id="side">
+    			<div id="open_text">
+    				<h3> Field Network </h3>
+    				<hr>
+    			</div>
+    			<div id="buttons">
+    				<h4  class="button" id="fieldsites-button">Field Sites View</h4>  <!-- style="float:left" -->
+					<h4 class="button" id="collaborators-button">Collaborators</h4> <!-- style="float:left" -->
+				</div>
+			
+			
+			<div id="site_view">
+	
+			</div>
+    	</div>
+    
+    	<div id="mapContainer">
+   		</div>
+
+    </div>
+    </div>
+</div>
+    
+    
+<div class="row ">
+	<img id="top" src="img/top.png">
+    <div class="col-md-12">   
+    <table id="table">
+      				<thead></thead>
+      				<tbody></tbody>
+   	</table>	
+    </div>
+</div>
+
+    
+    
+    <!-- jQuery -->
+    <script src="js/libraries/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/libraries/bootstrap.min.js"></script>
+    
+    <!-- D3 -->
+    
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    
+    <!-- D3.geo -->
+    <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+    
+    <!-- Topojson -->
+	<script src="js/libraries/topojson-js/topojson.min.js"></script> 
+	
+	<!-- Leaflet -->
+	<script src="js/libraries/leaflet/leaflet.js" type="text/javascript"></script>
+	
+	<!-- Jquery UI autocomplete -->
+	<script src="js/libraries/jquery-ui-autocomplete/jquery-ui.js" type="text/javascript"></script>
+	
+	
+	<!--  project files -->
+	<script src="js/okeon.js" type="text/javascript"></script>
+	
+	
+	<script src="js/libraries/menu.js"></script>
+   
+  
+	<script>
+	
+	$(document).ready(function (){
+            $("#top").click(function (){
+					$('html, body').animate({
+							scrollTop: $("#cssmenu").offset().top
+						}, 1000);
+				});
+	});
+	
+	
+		
+	</script>
+	
+
+<footer>
+	
+</footer>
+
+
+</body>
+
+</html>
